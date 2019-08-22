@@ -239,26 +239,51 @@ body {
   position: absolute;
   top: 40px;
 }
-  /* .boards-add:before, .boards-add:after {
-    content: "";
-    position: absolute;
-    background-color: white;
-    transition: transform 0.25s ease-out;
-  }
-  .boards-add:before {
-    top: 0;
-    left: 50%;
-    width: 4px;
-    height: 100%;
-    margin-left: -2px;
-  }
-  .boards-add:after {
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    margin-top: -2px;
-  } */
+  
+.board-menu {
+  /* grid-area: content;
+  align-self: center; */
+  /* background-color: #333; */
+}
+.board-menu-content {
+  /* grid-row-start: 2;
+  grid-row-end: 4; */
+  /* height: 100vh; */
+  /* background-color: #333; */
+}
+
+.board-menu-addNote {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+.stickyNote {
+  width: 200px;
+  height: 200px;
+  background-color: #fae441;
+}
+.stickyNote-title {
+  background-color: rgba(255,255,255,0.5);
+  padding-bottom: 1px;
+  padding-top: 0px;
+  height: 35px;
+  
+}
+
+.stickyNote-title-text {
+  position: relative;
+  top: 10px;
+}
+
+.noteData {
+  margin-left: -5px;
+}
+
+.noteData-text {
+  text-align: left;
+  margin-right: 5px;
+}
 
 
 
