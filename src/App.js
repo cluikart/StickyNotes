@@ -1,9 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import MenuBar from "./components/menu";
 
 import Welcome from "./components/welcome";
+import { async } from 'q';
 
 class App extends React.Component{
   constructor(props){
@@ -11,8 +12,28 @@ class App extends React.Component{
     this.toggleLogin = this.toggleLogin.bind(this);
     this.state = {
       login: false,
+      data: null,
     };
 }
+
+componentDidMount() {
+  this.callBackendAPI()
+  .then(res => this.setState({data: res.express}))
+  .catch(err => console.log(err));
+}
+
+callBackendAPI = async () => {
+  const response = await fetch('/login/cluikart/1Magnetism');
+  const body = await response.json();
+  console.log(body);
+
+  if(response.status !== 200) {
+    throw Error(body.message)
+  }
+  return body;
+}
+
+
 
   toggleLogin() {
     console.log("toggling login");
@@ -37,6 +58,7 @@ class App extends React.Component{
 
     <div className="App">
       {welcome}
+      {this.state.data}
      {menu}
     </div>
   );

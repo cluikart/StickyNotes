@@ -20,6 +20,7 @@ class StickyNote extends React.Component {
         this.state = {
             html: "<p> My Title</p>" ,
             listData: [],
+            
         }
     }
 
@@ -41,9 +42,13 @@ class StickyNote extends React.Component {
         }
       }
 
+      setStyle() {
+
+      }
+
     render() {
         return(
-            <Box className="stickyNote">
+            <Box className="stickyNote" onClick={this.setStyle}>
                 <div className="stickyNote-title">
                 <ContentEditable
               innerRef={this.contentEditable}

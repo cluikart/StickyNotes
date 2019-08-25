@@ -262,6 +262,9 @@ body {
   width: 200px;
   height: 200px;
   background-color: #fae441;
+ 
+ 
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
 }
 .stickyNote-title {
   background-color: rgba(255,255,255,0.5);
@@ -274,6 +277,7 @@ body {
 .stickyNote-title-text {
   position: relative;
   top: 10px;
+  outline: none;
 }
 
 .noteData {
@@ -283,6 +287,7 @@ body {
 .noteData-text {
   text-align: left;
   margin-right: 5px;
+  outline: none;
 }
 
 
