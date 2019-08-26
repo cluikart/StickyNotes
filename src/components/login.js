@@ -1,6 +1,7 @@
 import React from "react";
 import { throwStatement } from "@babel/types";
 import { Redirect} from "react-router-dom";
+import { async } from "q";
 
 
 class Login extends React.Component {
@@ -13,8 +14,9 @@ class Login extends React.Component {
             redirect: false,
     };
     
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.login = this.login.bind(this);
       }
 
       setRedirect() {
@@ -32,6 +34,8 @@ class Login extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
+        console.log(name + value);
+
         this.setState({
         [name]: value
         });
@@ -39,7 +43,24 @@ class Login extends React.Component {
     
       handleSubmit(event) {
         alert('A name was submitted: ' + this.state.value);
+        const result = this.login();
+        console.log(result);
+        if(result === null){
+
+        } else {
+            this.props.login();
+        }
         event.preventDefault();
+      }
+
+      login = async () => {
+          const response = await fetch('/login/' + this.state.username + '/' + this.state.password);
+          const body = await response.json();
+
+          if(response.status !== 200) {
+            throw Error(body.message)
+          }
+          return body;
       }
 
     render() {
@@ -58,10 +79,10 @@ class Login extends React.Component {
                     <h3 className="login-text">Password</h3>
                     <input className="login-input"
                     name="password"
-                    value={this.state.username} 
+                    value={this.state.password} 
                     onChange={this.handleChange}/>
                 </div>
-                <button className="login-signIn" onClick={this.props.login}>Sign In</button>
+                <button className="login-signIn" onClick={this.handleSubmit}>Sign In</button>
             </div>    
         );
     }

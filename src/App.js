@@ -17,9 +17,9 @@ class App extends React.Component{
 }
 
 componentDidMount() {
-  this.callBackendAPI()
-  .then(res => this.setState({data: res.express}))
-  .catch(err => console.log(err));
+  // this.callBackendAPI()
+  // .then(res => this.setState({data: res.express}))
+  // .catch(err => console.log(err));
 }
 
 callBackendAPI = async () => {

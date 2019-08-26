@@ -8,9 +8,12 @@ exports.user_create = function(req, res) {
         console.log(user.get({
             plain: true
         }))
-        // console.log(created)
+        console.log(created)
         res.send(created);
-    })
+    }).catch(function(err) {
+        // print the error details
+        console.log(err);
+    });
 };
 
 exports.user_validate = function(req, res) {

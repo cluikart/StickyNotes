@@ -24,6 +24,7 @@ sequelize
           type: Sequelize.INTEGER,
           primaryKey: true,
           allowNull: false,
+          autoIncrement: true,
       },
       username: {
           type: Sequelize.STRING,
@@ -35,7 +36,7 @@ sequelize
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
     }
   }, {
       sequelize,
