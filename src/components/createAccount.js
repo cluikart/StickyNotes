@@ -8,6 +8,7 @@ class CreateAccount extends React.Component {
             username: '',
             password: "",
             password2: "",
+            passInequalityMessage: ""
             
     };
     
@@ -40,6 +41,8 @@ class CreateAccount extends React.Component {
             }
         } else {
             //Do Something!!!!!
+            this.setState({passInequalityMessage: "Passwords don't match"});
+
         }
         
         event.preventDefault();
@@ -64,21 +67,22 @@ class CreateAccount extends React.Component {
                     <input className="create-input"
                     name="username"
                     value={this.state.username} 
-                    onChange={this.handleChange}/>/>
+                    onChange={this.handleChange}/>
                 </div>
                 <div className="create-pass">
                     <h3 className="create-text">Password</h3>
                     <input className="create-input"
                     name="password"
                     value={this.state.password} 
-                    onChange={this.handleChange}/>/>
+                    onChange={this.handleChange}/>
                 </div>
                 <div className="create-pass">
                     <h3 className="create-text">Re-Enter Password</h3>
                     <input className="create-input"
                     name="password2"
                     value={this.state.password2} 
-                    onChange={this.handleChange}/>/>
+                    onChange={this.handleChange}/>
+                    <p className="create-passInequity">{this.state.passInequalityMessage}</p>
                 </div>
                 <button className="create-signIn" onClick={this.handleSubmit}>Sign In</button>
             </div>    

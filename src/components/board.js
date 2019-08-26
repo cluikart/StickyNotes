@@ -9,7 +9,7 @@ class Board extends React.Component {
         super(props);
         this.contentEditable = React.createRef();
         this.state = {
-            html: "<p> My Board</p>" ,
+            html: "<p>"+ this.props.name + "</p>" ,
         }
     }
 
@@ -20,17 +20,17 @@ class Board extends React.Component {
     render() {
         return(
             <div>
-                    
-                        <NavLink className="menu-item" to="/boardMenu">
-            <div className="board">
-                
-                <ContentEditable
+                    <ContentEditable
               innerRef={this.contentEditable}
               html={this.state.html} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
               onChange={this.handleChange} // handle innerHTML change
               tagName='article' // Use a custom HTML tag (uses a div by default)
             />
+                        <NavLink className="menu-item" to="/boardMenu">
+            <div className="board">
+                
+                
             </div>   
             </NavLink>
 

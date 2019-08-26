@@ -1,6 +1,3 @@
-
-//   const sequelize = require("./dbConnect");
-
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize('noteAppdb', 'cluikart', '1Magnetism', {
@@ -19,31 +16,36 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
-  
+
+
   const Model = Sequelize.Model;
-  class User extends Model {}
-  User.init({
-      user_id: {
+  class Board extends Model {}
+  Board.init({
+      board_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           allowNull: false,
           autoIncrement: true,
       },
-      username: {
+      user_id: {
+          type: Sequelize.INTEGER,
+          allowNull: false
+      },
+      name: {
           type: Sequelize.STRING,
           allowNull: false
       },
-      password: {
+      color: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: true,
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: true,
+      deleted: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
     }
   }, {
       sequelize,
-      modelName: 'user'
+      modelName: 'boards'
   });
 
-  module.exports = User;
+  module.exports = Board;

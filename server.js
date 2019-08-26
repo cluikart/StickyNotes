@@ -7,7 +7,7 @@ const user_routes = require('./App/routes/appRoutes');
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-app.use('/login', user_routes);
+app.use('/', user_routes);
 
 // create a GET route
 app.get('/express_backend', (req, res) => {

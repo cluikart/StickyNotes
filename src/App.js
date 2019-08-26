@@ -13,13 +13,14 @@ class App extends React.Component{
     this.state = {
       login: false,
       data: null,
+      user_id: null,
     };
 }
 
 componentDidMount() {
-  // this.callBackendAPI()
-  // .then(res => this.setState({data: res.express}))
-  // .catch(err => console.log(err));
+  this.callBackendAPI()
+  .then(res => this.setState({data: res.express}))
+  .catch(err => console.log(err));
 }
 
 callBackendAPI = async () => {
@@ -35,9 +36,13 @@ callBackendAPI = async () => {
 
 
 
-  toggleLogin() {
-    console.log("toggling login");
-    this.setState({login: !this.state.login});
+  toggleLogin(user_id)  {
+    console.log("toggling login: " + user_id);
+    console.log(user_id);
+    
+      this.setState({login: !this.state.login, user_id: user_id});
+  
+    
   };
 
   render(){
@@ -46,7 +51,7 @@ callBackendAPI = async () => {
 
     if(this.state.login) {
       menu = (
-        <MenuBar/>
+        <MenuBar user_id={this.state.user_id}/>
       )
     } else {
       welcome = (
