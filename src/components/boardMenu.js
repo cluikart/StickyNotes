@@ -8,6 +8,9 @@ class BoardMenu extends React.Component {
     constructor(props) {
         super(props)
         this.addNote = this.addNote.bind(this);
+        this.newNote = this.newNote.bind(this);
+        this.loadNotes = this.loadNotes.bind(this);
+        this.registerNewNote = this.registerNewNote.bind(this);
         this.state = {
             notes: [],
         }
@@ -60,12 +63,42 @@ class BoardMenu extends React.Component {
         this.setState({notes: notes});
     }
 
+
+    newNote() {
+        let myNotes = this.state.notes;
+        this.registerNewNote().then(note => {
+            myNotes.push(<StickyNote 
+                title={note.title} 
+                text={note.text} 
+                x={note.x} 
+                y={note.y}
+                note_id={note.note_id}
+                color={note.color}/>);
+            this.setState({notes: myNotes});
+        });
+    }
+
+    registerNewNote = async() => {
+        const response = await fetch('/noteBoard/create/' 
+            + this.props.location.state.board_id + '/' 
+            + this.props.location.state.user_id);
+        const body = await response.json();
+
+        console.log(body);
+
+        if(response.status !== 200){
+           throw Error(body.message);
+        }
+
+        return body;
+    }
+
     render() {
        
         return(
             <div className="board-menu ">
                <h2 className="section-title">Board Menu</h2>
-               <button onClick={this.addNote} className="board-menu-addNote">Add Note</button>
+               <button onClick={this.newNote} className="board-menu-addNote">Add Note</button>
                 <div className="board-menu-content">
                     {/* <StickyNote/> */}
                     {this.state.notes}

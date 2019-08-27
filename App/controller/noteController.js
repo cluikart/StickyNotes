@@ -6,7 +6,7 @@ exports.note_load = function(req, res) {
     var board_id = req.params.board_id;
     
     Note.findAll({
-        where: {user_id: user_id}, board_id: board_id
+        where: {user_id: user_id, board_id: board_id}
     }).then(notes => {
         console.log(notes);
         res.send(notes);
@@ -40,6 +40,8 @@ exports.note_create = function(req, res) {
         board_id: board_id,
         x: 100,
         y: 100,
+        text: "Enter Your Stuff Here",
+        title: "A Note Title",
         color: '#FFFFFF',
         deleted: false,
     }).then(note => {
