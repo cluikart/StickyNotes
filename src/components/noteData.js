@@ -8,7 +8,7 @@ class NoteData extends React.Component {
         super(props);
         this.contentEditable = React.createRef();
         this.state = {
-            html: "Stuff" ,
+            html: this.props.text ,
             listData: [],
         }
     }

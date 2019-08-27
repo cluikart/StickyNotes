@@ -1,5 +1,6 @@
 import React from "react";
 import StickyNote from "./stickyNote";
+import { async } from "q";
 
 
 class BoardMenu extends React.Component {
@@ -14,6 +15,43 @@ class BoardMenu extends React.Component {
 
     componentDidMount() {
         console.log("Mounting Board Menu");
+        console.log("Note Board State is: " + this.props.location.state.board_id);
+        const boards = this.loadNotes();
+        boards.then(b => {this.createNotes(b)})
+    }
+
+    createNotes(notes) {
+        let myNotes = this.state.notes;
+        let note;
+        
+        for(let i = 0; i < notes.length; i++){
+            // console.log(board.board_id);
+            // console.log(boards[i])
+            // let b = JSON.stringify(board);
+            note = notes[i];
+            myNotes.push(<StickyNote 
+                title={note.title} 
+                text={note.text} 
+                x={note.x} 
+                y={note.y}
+                note_id={note.note_id}
+                color={note.color}/>);
+        }
+        this.setState({notes: myNotes});
+        // return boards;
+    }
+
+    loadNotes = async() => {
+        const response = await fetch('/noteBoard/load/' + this.props.location.state.board_id + '/' + this.props.location.state.user_id);
+        const body = await response.json();
+
+        console.log(body);
+
+        if(response.status !== 200){
+           throw Error(body.message);
+        }
+
+        return body;
     }
 
     addNote() {

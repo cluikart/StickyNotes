@@ -39,8 +39,13 @@ class Boards extends React.Component {
     createBoards(boards) {
         let myBoards = this.state.myBoards;
         let board;
-        for(board in boards){
-            myBoards.push(<Board name={board.name}/>);
+        
+        for(let i = 0; i < boards.length; i++){
+            // console.log(board.board_id);
+            // console.log(boards[i])
+            // let b = JSON.stringify(board);
+            board = boards[i];
+            myBoards.push(<Board name={board.name} board_id={board.board_id} user_id={board.user_id}/>);
         }
         this.setState({myBoards: myBoards});
         // return boards;

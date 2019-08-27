@@ -18,9 +18,13 @@ class StickyNote extends React.Component {
         this.newListItem = this.newListItem.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.state = {
-            html: "<p> My Title</p>" ,
+            html: "<p>" + this.props.title +"</p>" ,
+            x: this.props.x,
+            y: this.props.y,
+            color: this.props.color,
+            id: this.props.note_id,
             listData: [],
-            
+
         }
     }
 
@@ -60,7 +64,7 @@ class StickyNote extends React.Component {
             />
                 </div>
                 <ul onKeyDown={this.handleKeyDown}>
-                    <NoteData/>
+                    <NoteData text={this.props.text}/>
                     {this.state.listData}
                 </ul>
             </Box>  

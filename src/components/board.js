@@ -10,12 +10,16 @@ class Board extends React.Component {
         this.contentEditable = React.createRef();
         this.state = {
             html: "<p>"+ this.props.name + "</p>" ,
+            board_id: this.props.board_id,
+            user_id: this.props.user_id,
         }
     }
 
     handleChange = evt => {
         this.setState({html: evt.target.value})
     }
+
+    
 
     render() {
         return(
@@ -27,7 +31,15 @@ class Board extends React.Component {
               onChange={this.handleChange} // handle innerHTML change
               tagName='article' // Use a custom HTML tag (uses a div by default)
             />
-                        <NavLink className="menu-item" to="/boardMenu">
+                        <NavLink className="menu-item" to={{
+                            pathname: "/boardMenu",
+                            state: {
+                                name: "dfghjkl",
+                                board_id: this.props.board_id,
+                                user_id: this.state.user_id
+                            }
+                            
+                        }}>
             <div className="board">
                 
                 
