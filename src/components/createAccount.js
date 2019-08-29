@@ -1,4 +1,18 @@
 import React from "react";
+import posed from "react-pose";
+
+
+const OpacityBox = posed.div({
+    visible: {
+        opacity: 1,
+        y: 0,
+        // staggerChildren: 50,
+    },
+    hidden: {
+        opacity: 0,
+        y: 20,
+    }
+});
 
 class CreateAccount extends React.Component {
 
@@ -8,13 +22,18 @@ class CreateAccount extends React.Component {
             username: '',
             password: "",
             password2: "",
-            passInequalityMessage: ""
+            passInequalityMessage: "",
+            isOpen: false,
             
     };
     
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createAccount = this.createAccount.bind(this);
+      }
+
+      componentDidMount () {
+          this.setState({isOpen: true});
       }
 
     handleChange(event) {
@@ -58,7 +77,9 @@ class CreateAccount extends React.Component {
           return body;
       }
     render() {
+        const isOpen = this.state.isOpen;
         return(
+            <OpacityBox pose={isOpen ? 'visible' : 'hidden'}>
             <div className="create">
                 <a href="#" className="close" onClick={this.props.toggle}></a>
                 <h2 className="create-title">Join Us</h2>
@@ -85,7 +106,8 @@ class CreateAccount extends React.Component {
                     <p className="create-passInequity">{this.state.passInequalityMessage}</p>
                 </div>
                 <button className="create-signIn" onClick={this.handleSubmit}>Sign In</button>
-            </div>    
+            </div>   
+            </OpacityBox> 
         );
     }
 }

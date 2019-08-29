@@ -274,6 +274,11 @@ body {
   background-color: red;
 }
 
+.stickyNote-wrapper {
+  width: 210px;
+  height:200px;
+}
+
 .stickyNote {
   position: absolute;
   width: 200px;

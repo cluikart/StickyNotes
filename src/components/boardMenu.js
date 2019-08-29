@@ -97,8 +97,8 @@ class BoardMenu extends React.Component {
        
         return(
             <div className="board-menu ">
-               <h2 className="section-title">Board Menu</h2>
-               <button onClick={this.newNote} className="board-menu-addNote">Add Note</button>
+               {/* <h2 className="section-title">Board Menu</h2> */}
+               {/* <button onClick={this.newNote} className="board-menu-addNote">Add Note</button> */}
                 <div className="board-menu-content">
                     {/* <StickyNote/> */}
                     {this.state.notes}

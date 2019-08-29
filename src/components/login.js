@@ -2,7 +2,20 @@ import React from "react";
 import { throwStatement } from "@babel/types";
 import { Redirect} from "react-router-dom";
 import { async } from "q";
+import posed from "react-pose";
 
+
+const OpacityBox = posed.div({
+    visible: {
+        opacity: 1,
+        y: 0,
+        // staggerChildren: 50,
+    },
+    hidden: {
+        opacity: 0,
+        y: 20,
+    }
+});
 
 class Login extends React.Component {
     constructor(props) {
@@ -15,6 +28,7 @@ class Login extends React.Component {
             redirect: false,
             wrongLogin: true,
             loginMessage: " ",
+            isOpen: false,
     };
     
         this.handleChange = this.handleChange.bind(this);
@@ -22,6 +36,10 @@ class Login extends React.Component {
         this.login = this.login.bind(this);
         this.renderWrongLogin = this.renderWrongLogin.bind(this);
         this.renderCorrectLogin = this.renderCorrectLogin.bind(this);
+      }
+
+      componentDidMount() {
+          this.setState({isOpen: true});
       }
 
       setRedirect() {
@@ -106,7 +124,9 @@ class Login extends React.Component {
       }
 
     render() {
+        const isOpen = this.state.isOpen;
         return(
+            <OpacityBox pose={isOpen ? 'visible' : 'hidden'}>
             <div className="login">
                 <a href="#" className="close" onClick={this.props.toggle}></a>
                 <h2 className="login-title">Login</h2>
@@ -128,6 +148,7 @@ class Login extends React.Component {
                 <button className="login-signIn" onClick={this.handleSubmit}>Sign In</button>
                 {this.renderCorrectLogin()}
             </div>    
+            </OpacityBox>
         );
     }
 }

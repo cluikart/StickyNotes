@@ -15,6 +15,7 @@ class NoteData extends React.Component {
 
     handleChange = evt => {
         this.setState({html: evt.target.value})
+        this.props.onChange(evt);
     }
 
     render() {

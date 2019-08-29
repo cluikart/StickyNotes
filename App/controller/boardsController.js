@@ -11,6 +11,7 @@ exports.board_load = function(req, res) {
     });
 };
 
+
 exports.board_create = function(req, res) {
     var user_id = req.params.user_id;
     var name = req.params.name;
@@ -25,3 +26,17 @@ exports.board_create = function(req, res) {
         res.send(board);
     });
 };
+
+exports.board_update = function(req, res) {
+    var board_id = req.params.board_id;
+    var color = req.params.color;
+    var name = req.params.name;
+    
+    Board.update({
+       
+        color: color,
+        name: name
+    }, {returning: true, where: {board_id: board_id}}).then(board => {
+        res.send(board);
+    })
+}

@@ -18,6 +18,17 @@ const config = {
 
 const Box = posed.div(config);
 
+const OpacityBox = posed.div({
+    visible: {
+        opacity: 1,
+        y: 0,
+    },
+    hidden: {
+        opacity: 0,
+        y: 20,
+    }
+});
+
 class StickyNote extends React.Component {
     constructor(props) {
         super(props);
@@ -25,6 +36,7 @@ class StickyNote extends React.Component {
         this.noteRef = React.createRef();
         this.newListItem = this.newListItem.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleChangeOnData = this.handleChangeOnData.bind(this);
         this.state = {
             html: "<p>" + this.props.title +"</p>" ,
             x: this.props.x,
@@ -34,13 +46,15 @@ class StickyNote extends React.Component {
             title: this.props.title,
             text: this.props.text,
             listData: [],
+            isOpen: false,
 
         }
     }
 
     componentDidMount() {
-        console.log("posx: "+ this.state.x + " posy: " + this.state.y);
-        console.log(this.state.color + " " + this.state.title);
+        // console.log("posx: "+ this.state.x + " posy: " + this.state.y);
+        // console.log(this.state.color + " " + this.state.title);
+        this.setState({isOpen: true});
     }
 
     componentWillUnmount() {
@@ -50,7 +64,14 @@ class StickyNote extends React.Component {
     }
 
     handleChange = evt => {
-        this.setState({html: evt.target.value, title: evt.target.value})
+        this.setState({html: evt.target.value, title: evt.target.value.slice(3, -4)})
+        // console.log(this.state.title);
+        
+    }
+
+    handleChangeOnData(evt){
+        this.setState({text: evt.target.value})
+        // console.log(this.state.text);
         
     }
 
@@ -58,7 +79,7 @@ class StickyNote extends React.Component {
         let listData = this.state.listData;
         listData.push(<NoteData/>);
         this.setState({listData: listData});
-        console.log(this.state.listData);
+        // console.log(this.state.listData);
     }
 
     handleKeyDown = (e) => {
@@ -83,7 +104,7 @@ class StickyNote extends React.Component {
         let url = "/noteBoard/update/" 
             + this.state.id + "/"
             + Math.floor(pos.x) + "/"
-            + Math.floor(pos.y - pos.height) + "/"
+            + Math.floor(pos.y) + "/"
             + "FFFF11" + "/"
             + this.state.title + "/"
             + this.state.text;
@@ -106,7 +127,10 @@ class StickyNote extends React.Component {
     
 
     render() {
+
+        const isOpen = this.state.isOpen;
         return(
+            <OpacityBox  pose={isOpen ? 'visible' : 'hidden'}>
             <Box className="stickyNote" onClick={this.setStyle}
                 pose={"shift"} 
                 dx={this.state.x} 
@@ -124,10 +148,11 @@ class StickyNote extends React.Component {
             />
                 </div>
                 <ul onKeyDown={this.handleKeyDown}>
-                    <NoteData text={this.props.text}/>
+                    <NoteData text={this.props.text} onChange={this.handleChangeOnData}/>
                     {this.state.listData}
                 </ul>
             </Box>  
+            </OpacityBox>
         );
     }
 }

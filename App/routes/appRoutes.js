@@ -13,6 +13,8 @@ router.get('/boardMenu/load/:user_id', board_contr.board_load);
 
 router.get('/boardMenu/create/:user_id/:name', board_contr.board_create);
 
+router.get('/boardMenu/update/:board_id/:name/:color', board_contr.board_update);
+
 router.get('/noteBoard/load/:board_id/:user_id', note_contr.note_load);
 
 router.get('/noteBoard/create/:board_id/:user_id', note_contr.note_create);
