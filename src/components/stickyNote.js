@@ -4,7 +4,10 @@ import ReactDOM from "react-dom";
 import ContentEditable from "react-contenteditable";
 
 import NoteData from "./noteData";
+import colorIcon from "../images/color-wheel.png";
+import {BlockPicker} from "react-color";
 import { async } from "q";
+import { color } from "style-value-types";
 
 const config = {
     draggable: true,
@@ -29,24 +32,40 @@ const OpacityBox = posed.div({
     }
 });
 
+const OpacityBox2 = posed.div({
+    visible: {
+        opacity: 1,
+        y: 0,
+    },
+    hidden: {
+        opacity: 0,
+        y: 20,
+    }
+});
+
 class StickyNote extends React.Component {
     constructor(props) {
         super(props);
         this.contentEditable = React.createRef();
         this.noteRef = React.createRef();
+        this.interval = null;
         this.newListItem = this.newListItem.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleChangeOnData = this.handleChangeOnData.bind(this);
+        this.setPicker = this.setPicker.bind(this);
+        this.checkPosChange = this.checkPosChange.bind(this);
         this.state = {
             html: "<p>" + this.props.title +"</p>" ,
             x: this.props.x,
             y: this.props.y,
-            color: this.props.color,
+            color: '#'+this.props.color,
             id: this.props.note_id,
             title: this.props.title,
-            text: this.props.text,
+            text: this.props.text.replace(/%0D%0B/g, "<div>"),
             listData: [],
             isOpen: false,
+            isColor: false,
+            updateNeeded: false,
 
         }
     }
@@ -55,25 +74,52 @@ class StickyNote extends React.Component {
         // console.log("posx: "+ this.state.x + " posy: " + this.state.y);
         // console.log(this.state.color + " " + this.state.title);
         this.setState({isOpen: true});
+
+        this.interval = setInterval(() => {
+            this.checkPosChange();
+
+            if(this.state.updateNeeded){
+                console.log("Updating");
+                const pos = this.getElemCoord(this.noteRef.current);
+                this.setState({x: pos.x, y: pos.y});
+                this.setState({updateNeeded: false});
+                this.updatePosition(this.noteRef.current).then(res => {
+                    this.setState({updateNeeded: false});
+                })
+            }
+          }, 5000);
     }
 
     componentWillUnmount() {
         this.updatePosition(this.noteRef.current).then(res => {
             console.log(res);
         });
+        clearInterval(this.interval);
     }
 
     handleChange = evt => {
         this.setState({html: evt.target.value, title: evt.target.value.slice(3, -4)})
+        this.setState({updateNeeded: true});
         // console.log(this.state.title);
         
     }
 
     handleChangeOnData(evt){
         this.setState({text: evt.target.value})
+        this.setState({updateNeeded: true});
         // console.log(this.state.text);
         
     }
+
+    handleChangeComplete = (color) => {
+        this.setState({ color: color.hex });
+        this.setState({updateNeeded: true});
+      };
+
+     setPicker() {
+         console.log("setting picker");
+        this.setState({isColor: !this.state.isColor});
+     } 
 
     newListItem() {
         let listData = this.state.listData;
@@ -93,6 +139,13 @@ class StickyNote extends React.Component {
 
       }
 
+      checkPosChange() {
+          const pos = this.getElemCoord(this.noteRef.current);
+          if(Math.abs(this.state.x - pos.x) > 1 &&  Math.abs(this.state.y - pos.y) > 1){
+            this.setState({updateNeeded: true});
+          }
+      }
+
     getElemCoord(ref)  {
         return ReactDOM.findDOMNode(ref)
         .getBoundingClientRect();
@@ -105,11 +158,13 @@ class StickyNote extends React.Component {
             + this.state.id + "/"
             + Math.floor(pos.x) + "/"
             + Math.floor(pos.y) + "/"
-            + "FFFF11" + "/"
+            + this.state.color.replace('#', '') + "/"
             + this.state.title + "/"
-            + this.state.text;
+            + this.state.text.replace(/<\/div>/g, "%0D%0B");
+        let res = url.replace(/<div>/g, "%0D%0A");
         console.log(url);
-        const response = await fetch(url);
+        let encoded = encodeURI(url);
+        const response = await fetch(encoded);
         const body = await response.json();
 
         console.log(body);
@@ -129,15 +184,20 @@ class StickyNote extends React.Component {
     render() {
 
         const isOpen = this.state.isOpen;
+        const isColor = this.state.isColor;
         return(
+            <div>
+                
             <OpacityBox  pose={isOpen ? 'visible' : 'hidden'}>
-            <Box className="stickyNote" onClick={this.setStyle}
+            <Box className="stickyNote" style={{backgroundColor : this.state.color}}
                 pose={"shift"} 
                 dx={this.state.x} 
                 dy={this.state.y}
                 poseKey={[this.state.x, this.state.y]}
                 ref={this.noteRef}>
                 <div className="stickyNote-title">
+                
+                <img src={colorIcon} className="stickyNote-colorIcon" onClick={this.setPicker}/>    
                 <ContentEditable
               innerRef={this.contentEditable}
               html={this.state.html} // innerHTML of the editable div
@@ -148,11 +208,19 @@ class StickyNote extends React.Component {
             />
                 </div>
                 <ul onKeyDown={this.handleKeyDown}>
-                    <NoteData text={this.props.text} onChange={this.handleChangeOnData}/>
+                    <NoteData text={this.props.text.replace(/%0D%0B/g, "<div>")} onChange={this.handleChangeOnData}/>
                     {this.state.listData}
                 </ul>
+                <OpacityBox  initialPose={'hidden'} pose={isColor ? 'hidden' : 'visible'} >
+                <BlockPicker 
+                    color={ this.state.color }
+                    onChangeComplete={ this.handleChangeComplete }
+                    className="stickyNote-picker"
+                />
+                </OpacityBox>  
             </Box>  
             </OpacityBox>
+            </div>
         );
     }
 }

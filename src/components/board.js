@@ -96,13 +96,14 @@ class Board extends React.Component {
 
         const isOpen = this.state.isOpen;
         return(
-            <OpacityBox pose = {isOpen ? 'visible' : 'hidden'}>
+            <OpacityBox pose = {isOpen ? 'visible' : 'hidden'} className="board-wrapper"> 
                     <ContentEditable
               innerRef={this.contentEditable}
               html={this.state.html} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
               onChange={this.handleChange} // handle innerHTML change
               tagName='article' // Use a custom HTML tag (uses a div by default)
+              className="board-title"
             />
                         <NavLink className="menu-item" to={{
                             pathname: "/boardMenu",

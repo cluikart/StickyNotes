@@ -50,14 +50,20 @@ class CreateAccount extends React.Component {
     
       handleSubmit(event) {
         alert('A name was submitted: ' + this.state.value);
-        if(this.state.password === this.state.password2){
+        if(this.state.password.length < 8) {
+            this.setState({passInequalityMessage: "Password needs to be at least 8 characters"});
+        }
+        else if(this.state.password === this.state.password2 ){
             const result = this.createAccount();
-            console.log("the create result: "+result);
-            if(result === null){
-
-            } else {
-                this.props.login();
-            }
+            result.then(res => {
+                console.log("the create result: "+res);
+                if(!res){
+                    this.setState({passInequalityMessage: "This Username is taken"});
+                } else {
+                    this.props.login();
+                }
+            })
+            
         } else {
             //Do Something!!!!!
             this.setState({passInequalityMessage: "Passwords don't match"});

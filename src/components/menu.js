@@ -21,7 +21,7 @@ class MenuBar extends React.Component {
         console.log("The State passed up: " + JSON.stringify(state.myBoards[0]));
         this.setState({boardsState: state});
         if(this.state.boardsState !== null){
-            console.log('My boards: ' + JSON.stringify(this.state.boardsState.myBoards[0]));
+            // console.log('My boards: ' + JSON.stringify(this.state.boardsState.myBoards[0]));
         }
     }
 

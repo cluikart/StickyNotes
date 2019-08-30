@@ -77,13 +77,13 @@ class Boards extends React.Component {
     }
 
     saveBoard(boardState) {
-        console.log("the title recieved: " + JSON.stringify(boardState));
+        // console.log("the title recieved: " + JSON.stringify(boardState));
         let states = this.state.changedBoards;
         
         states.set(boardState.board_id, boardState);
-        console.log("The title mapped" + states.get(boardState.board_id));
+        // console.log("The title mapped" + states.get(boardState.board_id));
         this.setState({changedBoards: states});
-        console.log("the states length: " + states.length + "  the boards len: " + this.state.myBoards.length)
+        // console.log("the states length: " + states.length + "  the boards len: " + this.state.myBoards.length)
         if(states.size === this.state.myBoards.length){this.updateBoards(states);}
         
     }
@@ -138,7 +138,7 @@ class Boards extends React.Component {
             // console.log(board.board_id);
             // console.log(boards[i])
             // let b = JSON.stringify(board);
-            console.log("Updating Board with value: " + JSON.stringify(value));
+            // console.log("Updating Board with value: " + JSON.stringify(value));
             board = value;
             // boardState.set(board.board_id, board);
             myBoards.push(<Board name={board.name} 
@@ -155,22 +155,7 @@ class Boards extends React.Component {
 
 
 
-        // var myBoards = this.state.myBoards;
-        // const newBoards = this.state.changedBoards;
-        // let i;
-        // console.log(myBoards);
-        // console.log(newBoards);
-        // for(i = 0 ; i < myBoards.length; i++) {
-        //     console.log(myBoards[i].name);
-            
-        //     const id = myBoards[i].props.board_id;
-        //     console.log(newBoards[i]);
-        //     // console.log(newBoards.get(i));
-        //     // myBoards[i].props.name = newBoards.get(id).name;
-        //     // myBoards[i].props.color = newBoards.get(id).color;
-        // }
-
-        // this.setState({myBoards: myBoards});
+        
     }
 
     
@@ -180,21 +165,15 @@ class Boards extends React.Component {
         console.log(isOpen);
         return(
             <div className="boards section">
-                
+                <div className="section-title-wrapper">
                 <h2 className="section-title">My Boards</h2>
+                </div>
                 <div
                 // pose={isOpen ? 'visible' : 'hidden'}
                 className="boards-content">
                     {this.state.myBoards}
                     
-                    {/* <Board/>
-                    <Board/>
-                    <Board/>
-                    <Board/>
-                    <Board/>
-                    <Board/>
-                    <Board/>
-                    <Board/> */}
+                    
                 </div>
                 <div className="boards-add-wrapper">
                     <button className="boards-add" onClick={this.newBoard}></button>

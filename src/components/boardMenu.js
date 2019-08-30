@@ -48,7 +48,7 @@ class BoardMenu extends React.Component {
         const response = await fetch('/noteBoard/load/' + this.props.location.state.board_id + '/' + this.props.location.state.user_id);
         const body = await response.json();
 
-        console.log(body);
+        // console.log(body);
 
         if(response.status !== 200){
            throw Error(body.message);
@@ -84,7 +84,7 @@ class BoardMenu extends React.Component {
             + this.props.location.state.user_id);
         const body = await response.json();
 
-        console.log(body);
+        // console.log(body);
 
         if(response.status !== 200){
            throw Error(body.message);
