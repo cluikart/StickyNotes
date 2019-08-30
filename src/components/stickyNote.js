@@ -49,15 +49,20 @@ class StickyNote extends React.Component {
         this.contentEditable = React.createRef();
         this.noteRef = React.createRef();
         this.interval = null;
+        this.posUpdateInterval = null;
         this.newListItem = this.newListItem.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleChangeOnData = this.handleChangeOnData.bind(this);
         this.setPicker = this.setPicker.bind(this);
         this.checkPosChange = this.checkPosChange.bind(this);
+        this.getDelta = this.getDelta.bind(this);
+        this.updateX1Y1 = this.updateX1Y1.bind(this);
         this.state = {
             html: "<p>" + this.props.title +"</p>" ,
             x: this.props.x,
             y: this.props.y,
+            x1: this.props.x,
+            y1: this.props.y,
             color: '#'+this.props.color,
             id: this.props.note_id,
             title: this.props.title,
@@ -76,25 +81,65 @@ class StickyNote extends React.Component {
         this.setState({isOpen: true});
 
         this.interval = setInterval(() => {
-            this.checkPosChange();
+            
 
-            if(this.state.updateNeeded){
+            
+
+            if(this.state.updateNeeded || this.checkPosChange()){
                 console.log("Updating");
                 const pos = this.getElemCoord(this.noteRef.current);
-                this.setState({x: pos.x, y: pos.y});
-                this.setState({updateNeeded: false});
+                // this.setState({x: pos.x, y: pos.y-pos.height/2});
+                // this.setState({updateNeeded: false});
                 this.updatePosition(this.noteRef.current).then(res => {
-                    this.setState({updateNeeded: false});
+                    if(!this.checkPosChange){
+                        this.setState({updateNeeded: false});
+                }
+                    
                 })
             }
           }, 5000);
+
+          let x1 = this.state.x1;
+          let y1 = this.state.y1;
+          this.posUpdateInterval = setInterval(() => {
+            // this.checkPosChange();
+            if(this.checkPosChange()){
+                let delta = this.getDelta(x1,y1);
+                const pos = this.getElemCoord(this.noteRef.current);
+                console.log("Delta: " + delta);
+                if(delta[0] < 1 && delta[1] < 1){
+                    console.log("Delta is < 1: Update State");
+                    
+                    this.setState({x: pos.x, y: pos.y-pos.height/2});
+                    this.setState({posChange: false});
+                };
+                x1 = pos.x;
+                y1 = pos.y;
+                // this.updateX1Y1();
+            }
+          }, 1000);
+    }
+
+    updateX1Y1() {
+        const pos = this.getElemCoord(this.noteRef.current);
+        this.setState({x1: pos.x, y1: pos.y});
+    }
+
+    getDelta(x1,y1) {
+        const pos = this.getElemCoord(this.noteRef.current);
+        const x = x1;
+        const y = y1;
+        const dx = Math.abs(pos.x - x);
+        const dy = Math.abs(pos.y - y);
+        return [dx, dy];
     }
 
     componentWillUnmount() {
-        this.updatePosition(this.noteRef.current).then(res => {
-            console.log(res);
-        });
+        // this.updatePosition(this.noteRef.current).then(res => {
+        //     console.log(res);
+        // });
         clearInterval(this.interval);
+        clearInterval(this.posUpdateInterval);
     }
 
     handleChange = evt => {
@@ -142,8 +187,11 @@ class StickyNote extends React.Component {
       checkPosChange() {
           const pos = this.getElemCoord(this.noteRef.current);
           if(Math.abs(this.state.x - pos.x) > 1 &&  Math.abs(this.state.y - pos.y) > 1){
-            this.setState({updateNeeded: true});
+              return true;
+            // this.setState({updateNeeded: true});
+            // this.setState({posChange: true});
           }
+          return false;
       }
 
     getElemCoord(ref)  {

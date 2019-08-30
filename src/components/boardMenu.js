@@ -98,11 +98,12 @@ class BoardMenu extends React.Component {
         return(
             <div className="board-menu ">
                {/* <h2 className="section-title">Board Menu</h2> */}
-               {/* <button onClick={this.newNote} className="board-menu-addNote">Add Note</button> */}
+               <button onClick={this.newNote} className="board-menu-addNote">Add Note</button>
                 <div className="board-menu-content">
                     {/* <StickyNote/> */}
                     {this.state.notes}
                 </div>
+                <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
             </div>    
         );
     }

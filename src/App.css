@@ -363,7 +363,7 @@ body {
 .stickyNote-picker {
   position: absolute;
   right: -105px;
-  top: -85px;
+  top: -75px;
   width: 10%;
 }
 
@@ -439,8 +439,8 @@ body {
   }
 
   .board {
-    width: 150px;
-    height: 100px;
+    width: 20vw;
+    height: 12vw;
     
   }
   .board-title {
