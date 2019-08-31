@@ -20,12 +20,14 @@ exports.note_update = function(req, res) {
     var y = req.params.y;
     var title = req.params.title;
     var text = req.params.text;
+    var deleted = req.params.deleted;
     Note.update({
         x: x,
         y: y,
         color: color,
         title: title,
-        text: text
+        text: text,
+        deleted: deleted
     }, {returning: true, where: {note_id: note_id}}).then(note => {
         res.send(note);
     })
@@ -42,7 +44,7 @@ exports.note_create = function(req, res) {
         y: 100,
         text: "Enter Your Stuff Here",
         title: "A Note Title",
-        color: '#FFFFFF',
+        color: '#FFFF11',
         deleted: false,
     }).then(note => {
         console.log(note);

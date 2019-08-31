@@ -57,6 +57,7 @@ class StickyNote extends React.Component {
         this.checkPosChange = this.checkPosChange.bind(this);
         this.getDelta = this.getDelta.bind(this);
         this.updateX1Y1 = this.updateX1Y1.bind(this);
+        this.deleteNote = this.deleteNote.bind(this);
         this.state = {
             html: "<p>" + this.props.title +"</p>" ,
             x: this.props.x,
@@ -71,27 +72,23 @@ class StickyNote extends React.Component {
             isOpen: false,
             isColor: false,
             updateNeeded: false,
+            deleted: false,
 
         }
     }
 
     componentDidMount() {
         // console.log("posx: "+ this.state.x + " posy: " + this.state.y);
-        // console.log(this.state.color + " " + this.state.title);
+        console.log(this.state.color);
         this.setState({isOpen: true});
 
         this.interval = setInterval(() => {
-            
-
-            
-
+ 
             if(this.state.updateNeeded || this.checkPosChange()){
                 console.log("Updating");
                 const pos = this.getElemCoord(this.noteRef.current);
-                // this.setState({x: pos.x, y: pos.y-pos.height/2});
-                // this.setState({updateNeeded: false});
                 this.updatePosition(this.noteRef.current).then(res => {
-                    if(!this.checkPosChange){
+                    if(!this.checkPosChange || this.state.deleted){
                         this.setState({updateNeeded: false});
                 }
                     
@@ -110,12 +107,12 @@ class StickyNote extends React.Component {
                 if(delta[0] < 1 && delta[1] < 1){
                     console.log("Delta is < 1: Update State");
                     
-                    this.setState({x: pos.x, y: pos.y-pos.height/2});
+                    this.setState({x: pos.x, y: pos.y});
                     this.setState({posChange: false});
                 };
                 x1 = pos.x;
                 y1 = pos.y;
-                // this.updateX1Y1();
+                
             }
           }, 1000);
     }
@@ -184,6 +181,10 @@ class StickyNote extends React.Component {
 
       }
 
+      deleteNote() {
+          this.setState({updateNeeded: true, isOpen: false, deleted: true})
+      }
+
       checkPosChange() {
           const pos = this.getElemCoord(this.noteRef.current);
           if(Math.abs(this.state.x - pos.x) > 1 &&  Math.abs(this.state.y - pos.y) > 1){
@@ -206,9 +207,10 @@ class StickyNote extends React.Component {
             + this.state.id + "/"
             + Math.floor(pos.x) + "/"
             + Math.floor(pos.y) + "/"
-            + this.state.color.replace('#', '') + "/"
+            + this.state.color.replace(/#/g, '') + "/"
             + this.state.title + "/"
-            + this.state.text.replace(/<\/div>/g, "%0D%0B");
+            + this.state.text.replace(/<\/div>/g, "%0D%0B") + '/'
+            + this.state.deleted;
         let res = url.replace(/<div>/g, "%0D%0A");
         console.log(url);
         let encoded = encodeURI(url);
@@ -222,9 +224,7 @@ class StickyNote extends React.Component {
         }
 
         return body;
-        // this.setState({x: pos.x, 
-        //                 y: pos.y         
-        //         });
+        
     }
 
     
@@ -244,6 +244,9 @@ class StickyNote extends React.Component {
                 poseKey={[this.state.x, this.state.y]}
                 ref={this.noteRef}>
                 <div className="stickyNote-title">
+                    <div className="stickyNote-close-wrapper" onClick={this.deleteNote}>
+                        <a className="close stickyNote-close" ></a>
+                     </div>
                 
                 <img src={colorIcon} className="stickyNote-colorIcon" onClick={this.setPicker}/>    
                 <ContentEditable

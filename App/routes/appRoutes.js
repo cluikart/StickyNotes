@@ -19,6 +19,6 @@ router.get('/noteBoard/load/:board_id/:user_id', note_contr.note_load);
 
 router.get('/noteBoard/create/:board_id/:user_id', note_contr.note_create);
 
-router.get('/noteBoard/update/:note_id/:x/:y/:color/:title/:text', note_contr.note_update);
+router.get('/noteBoard/update/:note_id/:x/:y/:color/:title/:text/:deleted', note_contr.note_update);
 
 module.exports = router;

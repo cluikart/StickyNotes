@@ -316,10 +316,32 @@ body {
   
 }
 
+.board-menu-addNote-wrapper {
+  position: fixed;
+  left: 90px;
+  top: 90px;
+  width: 200px;
+  height: 200px;
+  
+  border: dashed rgba(0,0,0,0.9);
+  border-width: 10px;
+}
+
 .board-menu-addNote {
+  position: absolute;
+  top: 55px;
+  left: 50px;
   width: 100px;
   height: 100px;
-  background-color: red;
+  /* background-color: white;
+  border-radius: 30px;
+  border: solid black; */
+  transition: transform 0.5s;
+  
+}
+
+.board-menu-addNote:hover{
+  transform: rotateZ(90deg);
 }
 
 .stickyNote-wrapper {
@@ -351,6 +373,7 @@ body {
   top: 10px;
   outline: none;
   font-weight: 500;
+  z-index: 2;
 }
 
 .stickyNote-colorIcon {
@@ -365,6 +388,29 @@ body {
   right: -105px;
   top: -75px;
   width: 10%;
+}
+
+.stickyNote-close-wrapper {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 30px;
+  height: 30px;
+  z-index: 4;
+  
+
+}
+
+.stickyNote-close-wrapper:hover .close {
+  opacity: 1;
+}
+
+.stickyNote-close{
+  left: 0px;
+  top: 0px;
+  width: 10px;
+  height: 10px;
+  z-index: 5;
 }
 
 .noteData {

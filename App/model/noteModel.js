@@ -56,6 +56,10 @@ sequelize
     color: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    deleted: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
     }
   }, {
       sequelize,
