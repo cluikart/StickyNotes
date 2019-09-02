@@ -25,15 +25,15 @@ class MenuBar extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        let i;
-        const myBoards = this.state.boardsState.myBoards;
-        for(i = 0; i < myBoards.length; i++) {
-            // this.updateBoard(myBoards[i]).then(res => {
-            //     console.log('update of boards complete');
-            // });
-        }
-    }
+    // componentWillUnmount() {
+    //     let i;
+    //     const myBoards = this.state.boardsState.myBoards;
+    //     for(i = 0; i < myBoards.length; i++) {
+    //         // this.updateBoard(myBoards[i]).then(res => {
+    //         //     console.log('update of boards complete');
+    //         // });
+    //     }
+    // }
 
     updateBoard = async(board) => {
         const response = await fetch('/boardMenu/update/' + board.board_id + '/' + 

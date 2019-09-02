@@ -37,7 +37,11 @@ class Boards extends React.Component {
     newBoard() {
         let myBoards = this.state.myBoards;
         this.registerNewBoard().then(res => {
-            myBoards.push(<Board name={res.name} color={res.color} board_id={res.board_id} color={res.color}/>);
+            myBoards.push(<Board name={res.name} 
+                color={res.color} 
+                board_id={res.board_id} 
+                color={res.color}
+                save={this.saveBoard}/>);
             this.setState({myBoards: myBoards});
         });
     }

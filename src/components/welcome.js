@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "./login";
 import CreateAccount from "./createAccount";
+import Title from "./title";
 
 class Welcome extends React.Component {
     constructor(props) {
@@ -45,7 +46,8 @@ class Welcome extends React.Component {
         if(!this.state.login && !this.state.create) {
             welcome = (
                 <div className="welcome">
-                <h3 className="welcome-text">Welcome</h3>
+                <h3 className="welcome-text">StickyNotes</h3>
+                {/* <Title/> */}
                 
                 <button className="welcome-login" onClick={this.toggleLogin}>Login</button>
                 

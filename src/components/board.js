@@ -60,6 +60,7 @@ class Board extends React.Component {
     componentDidMount() {
        this.setState({isOpen: true});
        this.props.save(this.state);
+       console.log('board name: ' + this.props.name);
         
 
        //Check for changes and update every 5sec
@@ -108,7 +109,7 @@ class Board extends React.Component {
                         <NavLink className="menu-item" to={{
                             pathname: "/boardMenu",
                             state: {
-                                name: "dfghjkl",
+                                name: this.props.name,
                                 board_id: this.props.board_id,
                                 user_id: this.state.user_id
                             }

@@ -73,6 +73,7 @@ class StickyNote extends React.Component {
             isColor: false,
             updateNeeded: false,
             deleted: false,
+            colorChange: false,
 
         }
     }
@@ -88,7 +89,7 @@ class StickyNote extends React.Component {
                 console.log("Updating");
                 const pos = this.getElemCoord(this.noteRef.current);
                 this.updatePosition(this.noteRef.current).then(res => {
-                    if(!this.checkPosChange || this.state.deleted){
+                    if(!this.checkPosChange || this.state.deleted || this.state.colorChange){
                         this.setState({updateNeeded: false});
                 }
                     
@@ -109,12 +110,13 @@ class StickyNote extends React.Component {
                     
                     this.setState({x: pos.x, y: pos.y});
                     this.setState({posChange: false});
+                    this.setState({updateNeeded: false});
                 };
                 x1 = pos.x;
                 y1 = pos.y;
                 
             }
-          }, 1000);
+          }, 500);
     }
 
     updateX1Y1() {
@@ -139,13 +141,14 @@ class StickyNote extends React.Component {
         clearInterval(this.posUpdateInterval);
     }
 
+    //Change Title Event
     handleChange = evt => {
         this.setState({html: evt.target.value, title: evt.target.value.slice(3, -4)})
         this.setState({updateNeeded: true});
         // console.log(this.state.title);
         
     }
-
+    //Change Text Content Event
     handleChangeOnData(evt){
         this.setState({text: evt.target.value})
         this.setState({updateNeeded: true});
@@ -155,7 +158,7 @@ class StickyNote extends React.Component {
 
     handleChangeComplete = (color) => {
         this.setState({ color: color.hex });
-        this.setState({updateNeeded: true});
+        this.setState({updateNeeded: true, colorChange: true});
       };
 
      setPicker() {

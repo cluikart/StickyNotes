@@ -16,6 +16,7 @@ class BoardMenu extends React.Component {
         this.registerNewNote = this.registerNewNote.bind(this);
         this.state = {
             notes: [],
+            name: this.props.name,
         }
     }
 
@@ -108,7 +109,7 @@ class BoardMenu extends React.Component {
        
         return(
             <div className="board-menu ">
-               {/* <h2 className="section-title">Board Menu</h2> */}
+               <h2 className="board-menu-title">{this.props.location.state.name}</h2>
                <div className="board-menu-addNote-wrapper">
                <img src={plusBtn} ref={this.butnRef} onClick={this.newNote} className="board-menu-addNote"/>
                </div>
@@ -116,7 +117,7 @@ class BoardMenu extends React.Component {
                     {/* <StickyNote/> */}
                     {this.state.notes}
                 </div>
-                <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
+                {/* <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */}
             </div>    
         );
     }
