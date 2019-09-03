@@ -39,7 +39,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://note-app-server2.qa93w3cfwd.us-east-2.elasticbeanstalk.com",
   "devDependencies": {
     "nodemon": "^1.19.1"
   }
