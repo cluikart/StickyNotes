@@ -14,4 +14,9 @@ app.get('/express_backend', (req, res) => {
   res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
+// && webpack --env.ENVIRONMENT=production --config webpack.config.build.js"
+
+//"dev": "webpack --env.ENVIRONMENT=development --config webpack.config.dev.js",
+
+
 

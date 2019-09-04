@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,8 +40,10 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://note-app-server2.qa93w3cfwd.us-east-2.elasticbeanstalk.com",
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "dotenv": "^8.1.0",
+    "nodemon": "^1.19.1",
+    "webpack-cli": "^3.3.7"
   }
 }
+

@@ -36,7 +36,7 @@ class MenuBar extends React.Component {
     // }
 
     updateBoard = async(board) => {
-        const response = await fetch('/boardMenu/update/' + board.board_id + '/' + 
+        const response = await fetch(process.env.REACT_APP_API_URL+'/boardMenu/update/' + board.board_id + '/' + 
         board.name + '/' + board.color);
         const body = await response.json();
 

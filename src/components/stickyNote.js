@@ -206,7 +206,7 @@ class StickyNote extends React.Component {
     updatePosition = async(ref) => {
         
         const pos = this.getElemCoord(ref);
-        let url = "/noteBoard/update/" 
+        let url = process.env.REACT_APP_API_URL+"/noteBoard/update/" 
             + this.state.id + "/"
             + Math.floor(pos.x) + "/"
             + Math.floor(pos.y) + "/"

@@ -77,7 +77,7 @@ class Board extends React.Component {
     }
 
     saveBoard= async () => {
-        const response = await fetch('/boardMenu/update/' + this.state.board_id 
+        const response = await fetch(process.env.REACT_APP_API_URL+'/boardMenu/update/' + this.state.board_id 
         + '/' + this.state.name + '/'
         + this.state.color);
         const body = await response.json();

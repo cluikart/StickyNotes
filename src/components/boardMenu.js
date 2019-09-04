@@ -51,7 +51,7 @@ class BoardMenu extends React.Component {
     }
 
     loadNotes = async() => {
-        const response = await fetch('/noteBoard/load/' + this.props.location.state.board_id + '/' + this.props.location.state.user_id);
+        const response = await fetch(process.env.REACT_APP_API_URL+'/noteBoard/load/' + this.props.location.state.board_id + '/' + this.props.location.state.user_id);
         const body = await response.json();
 
         // console.log(body);
@@ -91,7 +91,7 @@ class BoardMenu extends React.Component {
     }
 
     registerNewNote = async() => {
-        const response = await fetch('/noteBoard/create/' 
+        const response = await fetch(process.env.REACT_APP_API_URL+'/noteBoard/create/' 
             + this.props.location.state.board_id + '/' 
             + this.props.location.state.user_id);
         const body = await response.json();

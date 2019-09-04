@@ -112,7 +112,7 @@ class Login extends React.Component {
       }
 
       login = async () => {
-          const response = await fetch('/login/' + this.state.username + '/' + this.state.password);
+          const response = await fetch(process.env.REACT_APP_API_URL+'/login/' + this.state.username + '/' + this.state.password);
           const body = await response.json();
 
           if(response.status !== 200) {

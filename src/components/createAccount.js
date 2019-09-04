@@ -74,7 +74,7 @@ class CreateAccount extends React.Component {
       }
 
       createAccount = async () => {
-          const response = await fetch('/login/createAccount/' + this.state.username + '/' + this.state.password);
+          const response = await fetch(process.env.REACT_APP_API_URL+'/login/createAccount/' + this.state.username + '/' + this.state.password);
           const body = await response.json();
 
           if(response.status !== 200) {

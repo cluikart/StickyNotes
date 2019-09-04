@@ -18,13 +18,15 @@ class App extends React.Component{
 }
 
 componentDidMount() {
+
+  console.log(process.env.REACT_APP_API_URL);
   this.callBackendAPI()
   .then(res => this.setState({data: res.express}))
   .catch(err => console.log(err));
 }
 
 callBackendAPI = async () => {
-  const response = await fetch('/login/cluikart/1Magnetism');
+  const response = await fetch(process.env.REACT_APP_API_URL+ '/login/cluikart/1Magnetism');
   const body = await response.json();
   console.log(body);
 

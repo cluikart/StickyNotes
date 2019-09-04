@@ -47,7 +47,7 @@ class Boards extends React.Component {
     }
 
     registerNewBoard = async() => {
-        const response = await fetch('/boardMenu/create/' + this.props.user_id + '/' + "My Title");
+        const response = await fetch(process.env.REACT_APP_API_URL+'/boardMenu/create/' + this.props.user_id + '/' + "My Title");
         const body = await response.json();
 
         // console.log(body);
@@ -121,7 +121,7 @@ class Boards extends React.Component {
     
 
     loadBoards = async () => {
-        const response = await fetch('/boardMenu/load/' + this.props.user_id);
+        const response = await fetch(process.env.REACT_APP_API_URL+'/boardMenu/load/' + this.props.user_id);
         const body = await response.json();
 
         // console.log(body);
