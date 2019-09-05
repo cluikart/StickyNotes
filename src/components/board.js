@@ -71,15 +71,18 @@ class Board extends React.Component {
                 this.setState({updateNeeded: false});
             })
         }
-      }, 5000);
+      }, 1000);
     
 
     }
 
     saveBoard= async () => {
-        const response = await fetch(process.env.REACT_APP_API_URL+'/boardMenu/update/' + this.state.board_id 
+        let url =process.env.REACT_APP_API_URL+'boardMenu/update/' + this.state.board_id 
         + '/' + this.state.name + '/'
-        + this.state.color);
+        + this.state.color.replace(/#/g, '');
+        let encoded = encodeURI(url);
+        console.log(encoded);
+        const response = await fetch(encoded);
         const body = await response.json();
 
         // console.log(body);

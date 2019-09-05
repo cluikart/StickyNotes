@@ -24,6 +24,7 @@ class CreateAccount extends React.Component {
             password2: "",
             passInequalityMessage: "",
             isOpen: false,
+            uid: null
             
     };
     
@@ -57,10 +58,17 @@ class CreateAccount extends React.Component {
             const result = this.createAccount();
             result.then(res => {
                 console.log("the create result: "+res);
-                if(!res){
+                console.log(res[0]);
+                if(!res[1]){
                     this.setState({passInequalityMessage: "This Username is taken"});
                 } else {
-                    this.props.login();
+                    const uid = JSON.stringify(res[0].user_id);
+                    console.log(typeof(user));
+                    console.log("User Id is: " + uid+ " with type of " + typeof(uid));
+                    // const id =  uid.json();
+                    this.setState({uid: uid});
+                    this.props.login(uid);
+                    
                 }
             })
             

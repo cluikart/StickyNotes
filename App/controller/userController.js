@@ -9,7 +9,7 @@ exports.user_create = function(req, res) {
             plain: true
         }))
         console.log(created)
-        res.send(created);
+        res.send([user,created]);
     }).catch(function(err) {
         // print the error details
         console.log(err);
