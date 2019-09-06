@@ -53,7 +53,7 @@ callBackendAPI = async () => {
 
     if(this.state.login) {
       menu = (
-        <MenuBar user_id={this.state.user_id}/>
+        <MenuBar user_id={this.state.user_id} toggleLogin={this.toggleLogin}/>
       )
     } else {
       welcome = (

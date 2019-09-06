@@ -31,6 +31,7 @@ class CreateAccount extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createAccount = this.createAccount.bind(this);
+        this.registerNewBoard = this.registerNewBoard.bind(this);
       }
 
       componentDidMount () {
@@ -67,7 +68,10 @@ class CreateAccount extends React.Component {
                     console.log("User Id is: " + uid+ " with type of " + typeof(uid));
                     // const id =  uid.json();
                     this.setState({uid: uid});
-                    this.props.login(uid);
+                    this.registerNewBoard(uid).then(res => {
+                        this.props.login(uid);
+                    });
+                    
                     
                 }
             })
@@ -90,6 +94,21 @@ class CreateAccount extends React.Component {
           }
           return body;
       }
+
+      registerNewBoard = async(uid) => {
+        const response = await fetch(process.env.REACT_APP_API_URL+'/boardMenu/create/' + uid + '/' + "My Title");
+        const body = await response.json();
+
+        // console.log(body);
+
+        if(response.status !== 200){
+           throw Error(body.message);
+        }
+
+        return body;
+    }
+
+
     render() {
         const isOpen = this.state.isOpen;
         return(

@@ -54,20 +54,23 @@ class MenuBar extends React.Component {
             <div>
                 <HashRouter>
                     <Menu>
-                        <NavLink className="menu-item" to="/">
+                        {/* <NavLink className="menu-item" to="/">
                             Home
-                        </NavLink>
+                        </NavLink> */}
                         {/* onPointerUp={blueComp} */}
-                        <NavLink className="menu-item" to="/boards" >
+                        <NavLink className="menu-item" to="/" >
                             Boards
                         </NavLink>
+                        <div className="menu-item" onClick={() => this.props.toggleLogin()}>
+                            Logout
+                        </div>
                         {/* <NavLink className="menu-item" to="/boardMenu" >
                             BoardsMenu
                         </NavLink> */}
                     </Menu>
                     <div className="content">
-                    <Route exact path="/" component={Home}/>
-                    <Route path="/boards" 
+                    {/* <Route exact path="/" component={Home}/> */}
+                    <Route exact path="/" 
                     render={(props) => <Boards {...props} user_id={this.props.user_id} saveState={this.saveBoardsState} state={this.state.boardsState}/>}/>
                     <Route path="/boardMenu" component={BoardMenu}/>
                     </div>

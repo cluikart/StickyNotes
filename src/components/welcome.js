@@ -2,6 +2,19 @@ import React from "react";
 import Login from "./login";
 import CreateAccount from "./createAccount";
 import Title from "./title";
+import posed from "react-pose";
+
+const OpacityBox = posed.div({
+    visible: {
+        opacity: 1,
+        y: 0,
+        // staggerChildren: 50,
+    },
+    hidden: {
+        opacity: 0,
+        y: 20,
+    }
+});
 
 class Welcome extends React.Component {
     constructor(props) {
@@ -11,6 +24,7 @@ class Welcome extends React.Component {
         this.state = {
             login: false,
             create: false,
+            isOpen: false
         }
     }
 
@@ -21,6 +35,10 @@ class Welcome extends React.Component {
 
     toggleCreateAcnt() {
         this.setState({create: !this.state.create});
+    }
+
+    componentDidMount() {
+        this.setState({isOpen: true});
     }
 
 
@@ -45,6 +63,7 @@ class Welcome extends React.Component {
 
         if(!this.state.login && !this.state.create) {
             welcome = (
+                <OpacityBox pose={this.state.isOpen ? 'visible' : 'hidden'}>
                 <div className="welcome">
                 <h3 className="welcome-text">StickyNotes</h3>
                 {/* <Title/> */}
@@ -53,6 +72,7 @@ class Welcome extends React.Component {
                 
                 <button className="welcome-login create-account" onClick={this.toggleCreateAcnt}>Create Account</button>
                 </div>
+                </OpacityBox>
             )
         }
 
