@@ -61,9 +61,9 @@ class MenuBar extends React.Component {
                         <NavLink className="menu-item" to="/" >
                             Boards
                         </NavLink>
-                        <div className="menu-item" onClick={() => this.props.toggleLogin()}>
+                        <NavLink className="menu-item" onClick={() => this.props.toggleLogin()} to='/'>
                             Logout
-                        </div>
+                        </NavLink>
                         {/* <NavLink className="menu-item" to="/boardMenu" >
                             BoardsMenu
                         </NavLink> */}
