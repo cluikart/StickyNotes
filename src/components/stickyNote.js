@@ -64,7 +64,7 @@ class StickyNote extends React.Component {
             y: this.props.y,
             x1: this.props.x,
             y1: this.props.y,
-            color: '#'+this.props.color,
+            color: '#'+this.props.color.replace(/#/g, ''),
             id: this.props.note_id,
             title: this.props.title,
             text: this.props.text.replace(/%0D%0B/g, "<div>"),
@@ -74,6 +74,7 @@ class StickyNote extends React.Component {
             updateNeeded: false,
             deleted: false,
             colorChange: false,
+            pickerState: ''
 
         }
     }
@@ -82,14 +83,17 @@ class StickyNote extends React.Component {
         // console.log("posx: "+ this.state.x + " posy: " + this.state.y);
         console.log(this.state.color);
         this.setState({isOpen: true});
+        this.setPicker();
+        // this.setPicker();
 
+        //Interval for checking if any change, then update database
         this.interval = setInterval(() => {
  
             if(this.state.updateNeeded || this.checkPosChange()){
                 console.log("Updating");
                 const pos = this.getElemCoord(this.noteRef.current);
                 this.updatePosition(this.noteRef.current).then(res => {
-                    if(!this.checkPosChange || this.state.deleted || this.state.colorChange){
+                    if(!this.checkPosChange() || this.state.deleted || this.state.colorChange){
                         this.setState({updateNeeded: false});
                 }
                     
@@ -97,20 +101,25 @@ class StickyNote extends React.Component {
             }
           }, 5000);
 
+
+          //Interval for checking position change, then update state
+          //(Doing state updates while object is changing causes odd behavior)
           let x1 = this.state.x1;
           let y1 = this.state.y1;
           this.posUpdateInterval = setInterval(() => {
-            // this.checkPosChange();
+            
+            // if note is moved
             if(this.checkPosChange()){
+                // then, if note has stopped moving
                 let delta = this.getDelta(x1,y1);
                 const pos = this.getElemCoord(this.noteRef.current);
-                console.log("Delta: " + delta);
+                // console.log("Delta: " + delta);
                 if(delta[0] < 1 && delta[1] < 1){
                     console.log("Delta is < 1: Update State");
-                    
+                    // ...Do an update
                     this.setState({x: pos.x, y: pos.y});
                     this.setState({posChange: false});
-                    this.setState({updateNeeded: false});
+                    this.setState({updateNeeded: true});
                 };
                 x1 = pos.x;
                 y1 = pos.y;
@@ -123,7 +132,7 @@ class StickyNote extends React.Component {
         const pos = this.getElemCoord(this.noteRef.current);
         this.setState({x1: pos.x, y1: pos.y});
     }
-
+    //get change in note position
     getDelta(x1,y1) {
         const pos = this.getElemCoord(this.noteRef.current);
         const x = x1;
@@ -155,7 +164,7 @@ class StickyNote extends React.Component {
         // console.log(this.state.text);
         
     }
-
+    //Change color event
     handleChangeComplete = (color) => {
         this.setState({ color: color.hex });
         this.setState({updateNeeded: true, colorChange: true});
@@ -163,7 +172,12 @@ class StickyNote extends React.Component {
 
      setPicker() {
          console.log("setting picker");
-        this.setState({isColor: !this.state.isColor});
+         if(this.state.isColor){
+             this.setState({isColor: !this.state.isColor, pickerState: 'hidden'});
+            } else {
+                this.setState({isColor: !this.state.isColor, pickerState: 'visible'});
+            }
+        
      } 
 
     newListItem() {
@@ -265,7 +279,7 @@ class StickyNote extends React.Component {
                     <NoteData text={this.props.text.replace(/%0D%0B/g, "<div>")} onChange={this.handleChangeOnData}/>
                     {this.state.listData}
                 </ul>
-                <OpacityBox  initialPose={'hidden'} pose={isColor ? 'hidden' : 'visible'} >
+                <OpacityBox  initialPose={'hidden'} pose={this.state.pickerState} >
                 <BlockPicker 
                     color={ this.state.color }
                     onChangeComplete={ this.handleChangeComplete }
